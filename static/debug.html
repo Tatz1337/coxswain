@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug - Coxswain Web Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 mb-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="/static/favicon.png" alt="Logo" class="w-8 h-8 mr-2">
+                <h1 class="text-3xl font-bold">Coxswain Web Application</h1>
+            </div>
+            <nav>
+                <a href="index.html" class="text-white hover:underline mx-2">Home</a>
+                <a href="changelog.html" class="text-white hover:underline mx-2">Changelog</a>
+                <a href="debug.html" class="text-white hover:underline mx-2">Debug</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold mb-4">Debug Information</h2>
+        <div class="bg-white p-6 rounded shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">System Status</h3>
+            <ul class="list-disc pl-6">
+                <li><strong>Uploads Directory:</strong> <span id="uploadsStatus">Checking...</span></li>
+                <li><strong>Data File:</strong> <span id="dataFileStatus">Checking...</span></li>
+            </ul>
+
+            <h3 class="text-xl font-semibold mt-6">Self-Tests</h3>
+            <ul class="list-disc pl-6">
+                <li><strong>Test File Upload Endpoint:</strong> <span id="uploadTestStatus">Pending...</span></li>
+                <li><strong>Test Data File Read:</strong> <span id="dataReadTestStatus">Pending...</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Coxswain Web Application. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        async function performDebugChecks() {
+            // Check if /uploads directory exists
+            try {
+                const uploadsResponse = await fetch('/uploads', { method: 'HEAD' });
+                document.getElementById('uploadsStatus').textContent = uploadsResponse.ok
+                    ? 'Exists'
+                    : `Not Found (Status: ${uploadsResponse.status})`;
+                console.log('Uploads Directory Status:', uploadsResponse.status);
+            } catch (error) {
+                document.getElementById('uploadsStatus').textContent = 'Error';
+                console.error('Error checking /uploads:', error);
+            }
+
+            // Check if /data/my_world.json exists
+            try {
+                const dataFileResponse = await fetch('/data/my_world.json', { method: 'HEAD' });
+                document.getElementById('dataFileStatus').textContent = dataFileResponse.ok
+                    ? 'Exists'
+                    : 'Not Found';
+                console.log('Data File Status:', dataFileResponse.status);
+            } catch (error) {
+                document.getElementById('dataFileStatus').textContent = 'Error';
+                console.error('Error checking /data/my_world.json:', error);
+            }
+
+            // Test file upload endpoint
+            try {
+                const uploadTestResponse = await fetch('/upload', { method: 'OPTIONS' });
+                document.getElementById('uploadTestStatus').textContent = uploadTestResponse.ok
+                    ? 'Available'
+                    : 'Unavailable';
+                console.log('Upload Endpoint Status:', uploadTestResponse.status);
+            } catch (error) {
+                document.getElementById('uploadTestStatus').textContent = 'Error';
+                console.error('Error testing /upload endpoint:', error);
+            }
+
+            // Test reading the data file
+            try {
+                const dataReadResponse = await fetch('/data/my_world.json');
+                document.getElementById('dataReadTestStatus').textContent = dataReadResponse.ok
+                    ? 'Readable'
+                    : 'Unreadable';
+                console.log('Data File Read Status:', dataReadResponse.status);
+            } catch (error) {
+                document.getElementById('dataReadTestStatus').textContent = 'Error';
+                console.error('Error reading /data/my_world.json:', error);
+            }
+        }
+
+        // Run the debug checks when the page loads
+        performDebugChecks();
+    </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Changelog - Coxswain Web Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 mb-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="/static/favicon.png" alt="Logo" class="w-8 h-8 mr-2">
+                <h1 class="text-3xl font-bold">Coxswain Web Application</h1>
+            </div>
+            <nav>
+                <a href="index.html" class="text-white hover:underline mx-2">Home</a>
+                <a href="changelog.html" class="text-white hover:underline mx-2">Changelog</a>
+                <a href="debug.html" class="text-white hover:underline mx-2">Debug</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold mb-4">Changelog</h2>
+        <div class="bg-white p-6 rounded shadow-lg">
+            <h3 class="text-xl font-semibold mb-4">April 13, 2025</h3>
+
+            <h4 class="text-lg font-semibold mt-4">Added Features</h4>
+            <ul class="list-disc pl-6">
+                <li><strong>Dynamic Image Handling for Characters:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Implemented logic to assign a default image (<code>/uploads/placeholder_char.png</code>) if no image is uploaded when adding a new character.</li>
+                        <li>Added functionality to upload images to the <code>/uploads</code> directory via the <code>/upload</code> endpoint.</li>
+                    </ul>
+                </li>
+                <li><strong>Capitalization in Edit Modal:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Updated the modal to display capitalized values for JSON fields when in editing mode. This change is for display purposes only and does not affect the saved data.</li>
+                    </ul>
+                </li>
+                <li><strong>Tailwind-Styled Alert Box:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Replaced browser alerts with a Tailwind-styled alert box for success and error messages.</li>
+                        <li>Positioned the alert box in the bottom-left corner of the screen.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 class="text-lg font-semibold mt-4">Refactoring</h4>
+            <ul class="list-disc pl-6">
+                <li><strong>Moved JavaScript and CSS to External Files:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Moved inline JavaScript to <code>scripts.js</code>.</li>
+                        <li>Moved inline CSS to <code>/static/styles.css</code>.</li>
+                        <li>Updated <code>index.html</code> to reference these external files.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 class="text-lg font-semibold mt-4">Bug Fixes</h4>
+            <ul class="list-disc pl-6">
+                <li><strong>Error 400 When Adding a Character:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Fixed an issue where the backend returned a 400 error due to missing or invalid fields in the request payload.</li>
+                        <li>Ensured the <code>name</code> field is required and validated in both the frontend and backend.</li>
+                        <li>Converted the <code>age</code> field to an integer in the frontend to match backend expectations.</li>
+                    </ul>
+                </li>
+                <li><strong>File Upload Issues:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Fixed an issue where the <code>/upload</code> endpoint did not save files correctly.</li>
+                        <li>Added error handling and logging to the <code>/upload</code> endpoint to debug and resolve issues.</li>
+                        <li>Ensured the backend has write permissions for the <code>uploads</code> directory.</li>
+                    </ul>
+                </li>
+                <li><strong>Frontend Script Errors:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Fixed issues caused by incorrect paths to the external <code>scripts.js</code> file.</li>
+                        <li>Ensured all DOM elements are loaded before JavaScript functions are executed.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 class="text-lg font-semibold mt-4">Enhancements</h4>
+            <ul class="list-disc pl-6">
+                <li><strong>Improved Debugging:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Added <code>console.log</code> statements in the frontend to debug request payloads and responses.</li>
+                        <li>Added logging to the backend <code>/upload</code> endpoint to track file uploads and errors.</li>
+                    </ul>
+                </li>
+                <li><strong>Improved User Experience:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Added a cancel button to the edit modal to allow users to discard changes.</li>
+                        <li>Ensured the modal content is cleared and updated correctly when switching between modals.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 class="text-lg font-semibold mt-4">Resolved Issues</h4>
+            <ul class="list-disc pl-6">
+                <li><strong>Test File Upload Endpoint:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Fixed an issue where the `/upload` endpoint was not responding to `OPTIONS` requests.</li>
+                        <li>Added explicit handling for `OPTIONS` requests in the backend.</li>
+                    </ul>
+                </li>
+                <li><strong>Data File and Test Data File Read:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Resolved an issue where the `/data/my_world.json` file was not being read correctly.</li>
+                        <li>Verified the file exists and is accessible via the debug page.</li>
+                    </ul>
+                </li>
+                <li><strong>Frontend Debug Script:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>Improved error handling and logging in the debug script for better feedback.</li>
+                        <li>Updated the script to provide detailed status messages for each test.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4 class="text-lg font-semibold mt-4">Tracked Bugs</h4>
+            <ul class="list-disc pl-6">
+                <li><strong>Uploads Directory Check:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>The `/uploads` directory is returning a `404 Not Found` error when accessed via the debug page.</li>
+                        <li>Verified that the directory exists and is mounted correctly in the backend, but the issue persists.</li>
+                        <li>Further investigation is required to resolve this issue.</li>
+                    </ul>
+                </li>
+                <li><strong>405 Method Not Allowed for Items Edit Modal:</strong>
+                    <ul class="list-disc pl-6">
+                        <li>The "Save" button in the items edit modal is sending a `PUT` request to `/item/{name}` (singular) instead of `/items/{name}` (plural).</li>
+                        <li>This results in a `405 Method Not Allowed` error because the backend does not have a `PUT` endpoint for `/item/{name}`.</li>
+                        <li>Potential causes include:
+                            <ul class="list-disc pl-6">
+                                <li>The `data-type` attribute in the modal is incorrectly set to `item` instead of `items`.</li>
+                                <li>The `saveEdit()` function is not correctly handling the `data-type` attribute.</li>
+                            </ul>
+                        </li>
+                        <li>Steps to resolve:
+                            <ul class="list-disc pl-6">
+                                <li>Verify that the `data-type` attribute is correctly set to `items` (plural) when editing an item.</li>
+                                <li>Ensure the `saveEdit()` function constructs the correct URL for the `PUT` request.</li>
+                                <li>Inspect the backend logs to confirm the request is reaching the correct endpoint.</li>
+                            </ul>
+                        </li>
+                        <li>Status: <strong>Under Investigation</strong></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Coxswain Web Application. All rights reserved.</p>
+            <p>
+                <a href="/static/debug.html" class="text-blue-400 hover:underline">
+                    View Debug
+                </a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

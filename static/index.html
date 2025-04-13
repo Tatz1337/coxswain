@@ -4,388 +4,8 @@
     <title>Coxswain</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/favicon.ico">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // your existing JavaScript code — no changes needed here!
-        async function addCharacter() {
-            const formData = new FormData();
-            formData.append("name", document.getElementById("name").value);
-            formData.append("race", document.getElementById("race").value);
-            formData.append("affiliation", document.getElementById("affiliation").value);
-            formData.append("description", document.getElementById("description").value);
-            formData.append("age", parseInt(document.getElementById("age").value));
-            formData.append("title", document.getElementById("title").value);
-            formData.append("alignment", document.getElementById("alignment").value);
-            formData.append("image", document.getElementById("characterImage").files[0]);
-
-            await fetch('/characters', {
-                method: 'POST',
-                body: formData
-            });
-            loadCharacters();
-            loadStats();
-        }
-
-        async function addItem() {
-            const item = {
-                name: document.getElementById("itemName").value,
-                type: document.getElementById("itemType").value,
-                rarity: document.getElementById("itemRarity").value,
-                description: document.getElementById("itemDescription").value
-            };
-            await fetch('/items', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(item)
-            });
-            loadItems();
-            loadStats();
-        }
-
-        async function addLocation() {
-            const location = {
-                name: document.getElementById("locationName").value,
-                region: document.getElementById("locationRegion").value,
-                description: document.getElementById("locationDescription").value,
-                danger_level: document.getElementById("locationDanger").value
-            };
-            await fetch('/locations', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(location)
-            });
-            loadLocations();
-            loadStats();
-        }
-
-        async function addEvent() {
-            const event = {
-                name: document.getElementById("eventName").value,
-                date: document.getElementById("eventDate").value,
-                location: document.getElementById("eventLocation").value,
-                description: document.getElementById("eventDescription").value
-            };
-            await fetch('/events', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(event)
-            });
-            loadEvents();
-            loadStats();
-        }
-
-        async function loadCharacters() {
-            const response = await fetch('/characters');
-            const characters = await response.json();
-            const tableBody = document.getElementById("characterTableBody");
-            tableBody.innerHTML = "";
-            characters.forEach(c => {
-                const row = `<tr class="border-b">
-                    <td class="p-2">
-                        <img src="${c.image_url || '/uploads/default-image.png'}" alt="${c.name}" class="w-16 h-16 object-cover">
-                    </td>
-                    <td class="p-2">
-                        <a href="#" onclick="showDetails('character', '${c.name}')" class="text-blue-600 hover:underline">${c.name}</a>
-                    </td>
-                    <td class="p-2">${c.title}</td>
-                    <td class="p-2">${c.race}</td>
-                    <td class="p-2">${c.affiliation}</td>
-                    <td class="p-2">${c.alignment}</td>
-                    <td class="p-2">${c.age}</td>
-                    <td class="p-2">${c.description}</td>
-                </tr>`;
-                tableBody.innerHTML += row;
-            });
-        }
-
-        async function loadItems() {
-            const response = await fetch('/items');
-            const items = await response.json();
-            const tableBody = document.getElementById("itemTableBody");
-            tableBody.innerHTML = "";
-            items.forEach(i => {
-                const row = `<tr class="border-b">
-                    <td class="p-2">
-                        <a href="#" onclick="showDetails('item', '${i.name}')" class="text-blue-600 hover:underline">${i.name}</a>
-                    </td>
-                    <td class="p-2">${i.type}</td>
-                    <td class="p-2">${i.rarity}</td>
-                    <td class="p-2">${i.description}</td>
-                </tr>`;
-                tableBody.innerHTML += row;
-            });
-        }
-
-        async function loadLocations() {
-            const response = await fetch('/locations');
-            const locations = await response.json();
-            const tableBody = document.getElementById("locationTableBody");
-            tableBody.innerHTML = "";
-            locations.forEach(l => {
-                const row = `<tr class="border-b">
-                    <td class="p-2">
-                        <a href="#" onclick="showDetails('location', '${l.name}')" class="text-blue-600 hover:underline">${l.name}</a>
-                    </td>
-                    <td class="p-2">${l.region}</td>
-                    <td class="p-2">${l.danger_level}</td>
-                    <td class="p-2">${l.description}</td>
-                </tr>`;
-                tableBody.innerHTML += row;
-            });
-        }
-
-        async function loadEvents() {
-            const response = await fetch('/events');
-            const events = await response.json();
-            const tableBody = document.getElementById("eventTableBody");
-            tableBody.innerHTML = "";
-            events.forEach(e => {
-                const row = `<tr class="border-b">
-                    <td class="p-2">
-                        <a href="#" onclick="showDetails('event', '${e.name}')" class="text-blue-600 hover:underline">${e.name}</a>
-                    </td>
-                    <td class="p-2">${e.date}</td>
-                    <td class="p-2">${e.location}</td>
-                    <td class="p-2">${e.description}</td>
-                </tr>`;
-                tableBody.innerHTML += row;
-            });
-        }
-
-        async function loadStats() {
-            const response = await fetch('/stats');
-            const stats = await response.json();
-            document.getElementById("stats").innerText = 
-                `Characters: ${stats.Characters}, Items: ${stats.Items}, Locations: ${stats.Locations}`;
-        }
-
-        async function deleteCharacter(name) {
-            if (confirm(`Are you sure you want to delete the character '${name}'?`)) {
-                const response = await fetch(`/character/${encodeURIComponent(name)}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    alert(`Character '${name}' deleted successfully!`);
-                    loadCharacters(); // Reload the table
-                } else {
-                    alert(`Failed to delete character '${name}'.`);
-                }
-            }
-        }
-
-        async function deleteItem(name) {
-            if (confirm(`Are you sure you want to delete the item '${name}'?`)) {
-                const response = await fetch(`/item/${encodeURIComponent(name)}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    alert(`Item '${name}' deleted successfully!`);
-                    loadItems(); // Reload the table
-                } else {
-                    alert(`Failed to delete item '${name}'.`);
-                }
-            }
-        }
-
-        async function deleteLocation(name) {
-            if (confirm(`Are you sure you want to delete the location '${name}'?`)) {
-                const response = await fetch(`/location/${encodeURIComponent(name)}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    alert(`Location '${name}' deleted successfully!`);
-                    loadLocations(); // Reload the table
-                } else {
-                    alert(`Failed to delete location '${name}'.`);
-                }
-            }
-        }
-
-        async function deleteEvent(name) {
-            if (confirm(`Are you sure you want to delete the event '${name}'?`)) {
-                const response = await fetch(`/event/${encodeURIComponent(name)}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    alert(`Event '${name}' deleted successfully!`);
-                    loadEvents(); // Reload the table
-                } else {
-                    alert(`Failed to delete event '${name}'.`);
-                }
-            }
-        }
-
-        async function showDetails(type, name) {
-            try {
-                const modalContent = document.getElementById("modalContent");
-                const editForm = document.getElementById("editForm");
-
-                // Clear the modal content and edit form
-                modalContent.innerHTML = "";
-                editForm.innerHTML = "";
-
-                // Fetch the details from the backend
-                const response = await fetch(`/${type}/${encodeURIComponent(name)}`);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch details for ${type}: ${name}`);
-                }
-                const htmlContent = await response.text();
-
-                // Populate the modal with the fetched content
-                modalContent.innerHTML = htmlContent;
-                modalContent.setAttribute("data-type", type);
-                modalContent.setAttribute("data-name", name);
-
-                // Show the modal
-                document.getElementById("detailsModal").classList.remove("hidden");
-            } catch (error) {
-                console.error(error);
-                alert("Failed to load details. Please try again.");
-            }
-        }
-
-        function closeModal() {
-            const modalContent = document.getElementById("modalContent");
-            const editForm = document.getElementById("editForm");
-            const editButton = document.getElementById("editButton");
-            const saveButton = document.getElementById("saveButton");
-            const cancelButton = document.getElementById("cancelButton");
-
-            // Clear modal content and reset the modal state
-            modalContent.innerHTML = "";
-            editForm.innerHTML = "";
-            modalContent.removeAttribute("data-type");
-            modalContent.removeAttribute("data-name");
-
-            // Reset buttons and visibility
-            modalContent.classList.remove("hidden");
-            editForm.classList.add("hidden");
-            editButton.classList.remove("hidden");
-            saveButton.classList.add("hidden");
-            cancelButton.classList.add("hidden");
-
-            // Hide the modal
-            document.getElementById("detailsModal").classList.add("hidden");
-        }
-
-        function switchForm(type) {
-            document.getElementById("characterForm").classList.add("hidden");
-            document.getElementById("itemForm").classList.add("hidden");
-            document.getElementById("locationForm").classList.add("hidden");
-            document.getElementById("eventForm").classList.add("hidden");
-
-            if (type === "character") document.getElementById("characterForm").classList.remove("hidden");
-            if (type === "item") document.getElementById("itemForm").classList.remove("hidden");
-            if (type === "location") document.getElementById("locationForm").classList.remove("hidden");
-            if (type === "event") document.getElementById("eventForm").classList.remove("hidden");
-        }
-
-        function filterCharacters() {
-            const search = document.getElementById("searchBar").value.toLowerCase();
-            const rows = document.querySelectorAll("#characterTableBody tr");
-            rows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(search) ? "" : "none";
-            });
-        }
-
-        function enableEdit() {
-            const modalContent = document.getElementById("modalContent");
-            const editForm = document.getElementById("editForm");
-            const editButton = document.getElementById("editButton");
-            const saveButton = document.getElementById("saveButton");
-            const cancelButton = document.getElementById("cancelButton");
-
-            // Store the original content in case the user cancels
-            modalContent.setAttribute("data-original-content", modalContent.innerHTML);
-
-            // Hide the modal content and show the edit form
-            modalContent.classList.add("hidden");
-            editForm.classList.remove("hidden");
-            editButton.classList.add("hidden");
-            saveButton.classList.remove("hidden");
-            cancelButton.classList.remove("hidden");
-
-            // Populate the edit form with the current data
-            const currentData = modalContent.querySelectorAll("[data-field]");
-            editForm.innerHTML = "";
-            currentData.forEach(field => {
-                const fieldName = field.getAttribute("data-field");
-                const fieldValue = field.innerText;
-                const input = `<div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">${fieldName}</label>
-                    <input type="text" id="edit-${fieldName}" value="${fieldValue}" class="p-2 border rounded w-full" />
-                </div>`;
-                editForm.innerHTML += input;
-            });
-        }
-
-        async function saveEdit() {
-            const editForm = document.getElementById("editForm");
-            const modalContent = document.getElementById("modalContent");
-            const editButton = document.getElementById("editButton");
-            const saveButton = document.getElementById("saveButton");
-            const cancelButton = document.getElementById("cancelButton");
-
-            // Collect updated data from the form
-            const inputs = editForm.querySelectorAll("input");
-            const updatedData = {};
-            inputs.forEach(input => {
-                const fieldName = input.id.replace("edit-", "");
-                updatedData[fieldName] = input.value;
-            });
-
-            // Send the updated data to the backend
-            const type = modalContent.getAttribute("data-type");
-            const name = modalContent.getAttribute("data-name");
-            const response = await fetch(`/${type}/${encodeURIComponent(name)}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedData)
-            });
-
-            if (response.ok) {
-                alert(`${type.charAt(0).toUpperCase() + type.slice(1)} updated successfully!`);
-                closeModal();
-                // Reload the relevant table
-                if (type === "character") loadCharacters();
-                if (type === "item") loadItems();
-                if (type === "location") loadLocations();
-                if (type === "event") loadEvents();
-            } else {
-                alert("Failed to update. Please try again.");
-            }
-
-            // Hide the cancel button
-            cancelButton.classList.add("hidden");
-        }
-
-        function cancelEdit() {
-            const modalContent = document.getElementById("modalContent");
-            const editForm = document.getElementById("editForm");
-            const editButton = document.getElementById("editButton");
-            const saveButton = document.getElementById("saveButton");
-            const cancelButton = document.getElementById("cancelButton");
-
-            // Restore the original content
-            modalContent.innerHTML = modalContent.getAttribute("data-original-content");
-
-            // Hide the edit form and show the modal content
-            modalContent.classList.remove("hidden");
-            editForm.classList.add("hidden");
-            editButton.classList.remove("hidden");
-            saveButton.classList.add("hidden");
-            cancelButton.classList.add("hidden");
-        }
-
-        window.onload = () => {
-            loadCharacters();
-            loadItems();
-            loadLocations();
-            loadEvents();
-            loadStats();
-        }
-    </script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
     <!-- Header -->
@@ -436,9 +56,12 @@
                 <input id="alignment" placeholder="Alignment" class="p-2 border rounded w-full" />
                 <input id="age" type="number" placeholder="Age" class="p-2 border rounded w-full" />
                 <input id="description" placeholder="Description" class="p-2 border rounded w-full" />
-                <input id="characterImage" type="file" class="p-2 border rounded w-full" />
+                <div class="mb-4">
+                    <label for="characterImage" class="block text-gray-700 font-semibold mb-2">Character Image</label>
+                    <input type="file" id="characterImage" class="p-2 border rounded w-full" accept="image/*">
+                </div>
             </div>
-            <button onclick="addCharacter()" class="bg-blue-600 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700">
+            <button onclick="addCharacter()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Add Character
             </button>
         </div>
@@ -543,6 +166,11 @@
         </table>
     </div>
 
+    <!-- Alert Box -->
+    <div id="alertBox" class="hidden fixed bottom-4 left-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+        <span id="alertMessage"></span>
+    </div>
+
     <!-- Modal -->
     <div id="detailsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl">
@@ -568,8 +196,15 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white p-4 mt-8">
         <div class="container mx-auto text-center">
-            <p>&copy; 2025 Coxswain Web Application. All rights reserved.</p>
+            <p>&copy; 2025 DatabaseDevil. All rights reserved.</p>
+            <p>
+                <a href="/static/changelog.html" class="text-blue-400 hover:underline">
+                    View Changelog
+                </a>
+            </p>
         </div>
     </footer>
+
+    <script src="/static/scripts.js"></script>
 </body>
 </html>

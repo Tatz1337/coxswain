@@ -5,13 +5,22 @@ from pydantic import BaseModel
 import json
 import os
 import shutil
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Update this to restrict origins if needed
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
+UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "uploads")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 DATA_PATH = "data/my_world.json"
-UPLOAD_DIR = "uploads"
 
 class Character(BaseModel):
     name: str
@@ -63,40 +72,16 @@ def get_characters():
     return data["Characters"]
 
 @app.post("/characters")
-async def add_character(
-    name: str = Form(...),
-    race: str = Form(...),
-    affiliation: str = Form(...),
-    description: str = Form(...),
-    age: int = Form(...),
-    title: str = Form(...),
-    alignment: str = Form(...),
-    image: UploadFile = File(None)
-):
+def add_character(character: dict):
     data = load_world()
+    if not character.get("name"):
+        raise HTTPException(status_code=400, detail="Character name is required.")
+    if not character.get("image_url"):
+        character["image_url"] = "/uploads/placeholder_char.png"  # Default image
 
-    # Save the uploaded image
-    image_url = None
-    if image:
-        image_path = f"{UPLOAD_DIR}/{image.filename}"
-        with open(image_path, "wb") as buffer:
-            shutil.copyfileobj(image.file, buffer)
-        image_url = f"/uploads/{image.filename}"  # Ensure this matches the uploads directory
-
-    # Add the character with the image URL
-    character = {
-        "name": name,
-        "race": race,
-        "affiliation": affiliation,
-        "description": description,
-        "age": age,
-        "title": title,
-        "alignment": alignment,
-        "image_url": image_url
-    }
     data["Characters"].append(character)
     save_world(data)
-    return {"message": "Character added!"}
+    return {"message": "Character added successfully!"}
 
 @app.put("/character/{name}")
 def update_character(name: str, updated_data: dict):
@@ -135,22 +120,22 @@ def add_item(item: Item):
     save_world(data)
     return {"message": "Item added!"}
 
-@app.put("/item/{name}")
-def update_item(name: str, updated_data: dict):
+@app.put("/items/{name}")
+def update_item(name: str, updated_item: dict):
     data = load_world()
     item = next((i for i in data["Items"] if i["name"] == name), None)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
 
     # Update the item's fields
-    for key, value in updated_data.items():
+    for key, value in updated_item.items():
         if key in item:
             item[key] = value
 
     save_world(data)
-    return {"message": f"Item '{name}' updated successfully!"}
+    return {"message": "Item updated successfully!"}
 
-@app.delete("/item/{name}")
+@app.delete("/items/{name}")
 def delete_item(name: str):
     data = load_world()
     item = next((i for i in data["Items"] if i["name"] == name), None)
@@ -317,3 +302,24 @@ def get_event(name: str):
     </div>
     """
     return HTMLResponse(content=html_content)
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    try:
+        print(f"Received file: {file.filename}")  # Log the file name
+        file_path = os.path.join(UPLOAD_DIR, file.filename)
+        with open(file_path, "wb") as f:
+            f.write(await file.read())
+        print(f"File saved to: {file_path}")  # Log the save location
+        return {"file_url": f"/uploads/{file.filename}"}
+    except Exception as e:
+        print(f"Error uploading file: {e}")  # Log the error
+        return {"error": "Failed to upload file"}, 500
+
+@app.options("/upload")
+async def upload_options():
+    return {"message": "OPTIONS request successful"}
+
+@app.get("/data/my_world.json")
+def get_data_file():
+    return FileResponse("data/my_world.json")

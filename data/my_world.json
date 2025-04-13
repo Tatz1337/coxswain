@@ -4,18 +4,18 @@
             "name": "Stella Langford",
             "race": "Human",
             "affiliation": "Blackwing",
-            "description": "White haired beauty.",
-            "age": "22",
+            "description": "White Haired Beauty.",
+            "age": "23",
             "title": "Queen",
-            "alignment": "Goodddddadas ",
+            "alignment": "Good",
             "image_url": "/uploads/placeholder_char.png"
         },
         {
-            "name": "Khani",
+            "name": "Khani Blackwing",
             "race": "Human",
             "affiliation": "123",
             "description": "awesome",
-            "age": "22",
+            "age": "23",
             "title": "Hottie",
             "alignment": "Bad",
             "image_url": "/uploads/placeholder_char.png"
@@ -24,19 +24,49 @@
             "name": "Mega Man",
             "race": "Cyborg",
             "affiliation": "Dr. Wiley",
-            "description": "A cyber robot boy who defeats evil.",
-            "age": 15,
+            "description": "A Cyber Robot Boy Who Defeats Evil.",
+            "age": "12",
             "title": "Hero",
             "alignment": "Lawful Good",
+            "image_url": "/uploads/placeholder_char.png"
+        },
+        {
+            "name": "f",
+            "race": "",
+            "affiliation": "",
+            "description": "",
+            "age": 2,
+            "title": "",
+            "alignment": "",
+            "image_url": "/uploads/placeholder_char.png"
+        },
+        {
+            "name": "a",
+            "race": "",
+            "affiliation": "",
+            "description": "",
+            "age": 44,
+            "title": "",
+            "alignment": "",
+            "image_url": "/uploads/placeholder_char.png"
+        },
+        {
+            "name": "test",
+            "race": "",
+            "affiliation": "",
+            "description": "",
+            "age": "5",
+            "title": "",
+            "alignment": "",
             "image_url": "/uploads/placeholder_char.png"
         }
     ],
     "Items": [
         {
             "name": "Excalibur",
-            "type": "Sword",
+            "type": "Swords",
             "rarity": "Legendary",
-            "description": "A sword of great power, forged by the gods."
+            "description": "A Sword Of Great Power, Forged By The Gods."
         },
         {
             "name": "The Ring",
@@ -49,22 +79,28 @@
         {
             "name": "Castle Morraine",
             "region": "Morraine Kingdom",
-            "danger_level": "Low",
-            "description": "The royal castle, home to the king and his family."
+            "danger_level": "Loww",
+            "description": "The Royal Castle, Home To The King And His Family."
         }
     ],
     "Events": [
         {
-            "name": "Coronation of King Arthur",
+            "name": "Coronation Of King Arthur",
             "date": "2025-04-15",
-            "location": "Castle Morraine",
-            "description": "A grand ceremony to crown the new king."
+            "location": "Castle Morraine4",
+            "description": "A Grand Ceremony To Crown The New King."
         },
         {
             "name": "The Ending",
             "date": "2025-04-15",
             "location": "CA",
             "description": "Trump"
+        },
+        {
+            "name": "",
+            "date": "",
+            "location": "",
+            "description": ""
         }
     ]
 }
