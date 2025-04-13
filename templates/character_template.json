@@ -1,0 +1,26 @@
+{
+    "template_name": "Character",
+    "fields": [
+      {
+        "key": "name",
+        "label": "Name",
+        "type": "text"
+      },
+      {
+        "key": "race",
+        "label": "Race",
+        "type": "text"
+      },
+      {
+        "key": "affiliation",
+        "label": "Affiliation",
+        "type": "text"
+      },
+      {
+        "key": "description",
+        "label": "Description",
+        "type": "text"
+      }
+    ]
+  }
+  

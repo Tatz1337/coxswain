@@ -1,0 +1,70 @@
+{
+    "Characters": [
+        {
+            "name": "Stella Langford",
+            "race": "Human",
+            "affiliation": "Blackwing",
+            "description": "White haired beauty.",
+            "age": "22",
+            "title": "Queen",
+            "alignment": "Goodddddadas ",
+            "image_url": "/uploads/placeholder_char.png"
+        },
+        {
+            "name": "Khani",
+            "race": "Human",
+            "affiliation": "123",
+            "description": "awesome",
+            "age": "22",
+            "title": "Hottie",
+            "alignment": "Bad",
+            "image_url": "/uploads/placeholder_char.png"
+        },
+        {
+            "name": "Mega Man",
+            "race": "Cyborg",
+            "affiliation": "Dr. Wiley",
+            "description": "A cyber robot boy who defeats evil.",
+            "age": 15,
+            "title": "Hero",
+            "alignment": "Lawful Good",
+            "image_url": "/uploads/placeholder_char.png"
+        }
+    ],
+    "Items": [
+        {
+            "name": "Excalibur",
+            "type": "Sword",
+            "rarity": "Legendary",
+            "description": "A sword of great power, forged by the gods."
+        },
+        {
+            "name": "The Ring",
+            "type": "Ring",
+            "rarity": "Mega Ultra Rare",
+            "description": "The precious..."
+        }
+    ],
+    "Locations": [
+        {
+            "name": "Castle Morraine",
+            "region": "Morraine Kingdom",
+            "danger_level": "Low",
+            "description": "The royal castle, home to the king and his family."
+        }
+    ],
+    "Events": [
+        {
+            "name": "Coronation of King Arthur",
+            "date": "2025-04-15",
+            "location": "Castle Morraine",
+            "description": "A grand ceremony to crown the new king."
+        },
+        {
+            "name": "The Ending",
+            "date": "2025-04-15",
+            "location": "CA",
+            "description": "Trump"
+        }
+    ]
+}
