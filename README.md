@@ -1,4 +1,5 @@
-# Worldbuilding Program
+<img src="https://github.com/user-attachments/assets/6a9e47c2-1b5c-422a-8230-0b45105a1fcf" alt="drawing" width="200"/><br>
+Coxswain
 
 This is a worldbuilding application that allows users to create and manage their own fictional universes. Users can add and edit characters, items, locations, and events, all of which are stored in an easily editable JSON file.
 
