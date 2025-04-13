@@ -31,7 +31,7 @@ This is a worldbuilding application that allows users to create and manage their
 
 1. Start the backend server:
     ```bash
-    uvicorn main:app --reload
+     uvicorn main:app --reload --host 127.0.0.1 --port 8000
     ```
 
 2. Start the frontend development server:

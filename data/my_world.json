@@ -15,7 +15,7 @@
             "race": "Human",
             "affiliation": "123",
             "description": "awesome",
-            "age": "23",
+            "age": "21",
             "title": "Hottie",
             "alignment": "Bad",
             "image_url": "/uploads/placeholder_char.png"
@@ -79,7 +79,7 @@
         {
             "name": "Castle Morraine",
             "region": "Morraine Kingdom",
-            "danger_level": "Loww",
+            "danger_level": "Loww2",
             "description": "The Royal Castle, Home To The King And His Family."
         }
     ],
@@ -87,7 +87,7 @@
         {
             "name": "Coronation Of King Arthur",
             "date": "2025-04-15",
-            "location": "Castle Morraine4",
+            "location": "Castle Morraine422",
             "description": "A Grand Ceremony To Crown The New King."
         },
         {
