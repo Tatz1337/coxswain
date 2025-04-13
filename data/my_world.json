@@ -5,7 +5,7 @@
             "race": "Human",
             "affiliation": "Blackwing",
             "description": "White Haired Beauty.",
-            "age": "23",
+            "age": "22",
             "title": "Queen",
             "alignment": "Good",
             "image_url": "/uploads/placeholder_char.png"
@@ -55,7 +55,7 @@
             "race": "",
             "affiliation": "",
             "description": "",
-            "age": "5",
+            "age": "1",
             "title": "",
             "alignment": "",
             "image_url": "/uploads/placeholder_char.png"
@@ -64,8 +64,8 @@
     "Items": [
         {
             "name": "Excalibur",
-            "type": "Swords",
-            "rarity": "Legendary",
+            "type": "Swordsaa",
+            "rarity": "Legendarys",
             "description": "A Sword Of Great Power, Forged By The Gods."
         },
         {

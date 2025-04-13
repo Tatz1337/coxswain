@@ -120,7 +120,7 @@ def add_item(item: Item):
     save_world(data)
     return {"message": "Item added!"}
 
-@app.put("/items/{name}")
+@app.put("/item/{name}")
 def update_item(name: str, updated_item: dict):
     data = load_world()
     item = next((i for i in data["Items"] if i["name"] == name), None)
